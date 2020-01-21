@@ -2,12 +2,108 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\Controller;
 use App\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    use RegistersUsers;
+
+    /**
+     * @OA\Post(
+     *     path="/register",
+     *     operationId="registration",
+     *     tags={"Authentication"},
+     *     summary="Register",
+     *     description="Return created user",
+     *     @OA\RequestBody(
+     *          request="User",
+     *          description="Enter user",
+     *          required=true,
+     *          @OA\JsonContent(
+     *               @OA\Property(
+     *                    property="name",
+     *                    example="User2",
+     *                    type="string",
+     *                ),
+     *               @OA\Property(
+     *                    property="email",
+     *                    example="user2@mail.com",
+     *                    type="string",
+     *                ),
+     *                @OA\Property(
+     *                    property="password",
+     *                    type="string",
+     *                    example="123456",
+     *               ),
+     *                @OA\Property(
+     *                    property="password_confirmation",
+     *                    type="string",
+     *                    example="123456",
+     *               ),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *         response="422",
+     *         description="The given data was invalid.",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(
+     *                      property="errors",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          @OA\Property(
+     *                              property="%FIELD_NAME%",
+     *                              type="string"
+     *                          )
+     *                      )
+     *                  ),
+     *                  @OA\Property(
+     *                      property="message",
+     *                      type="srting"
+     *                  )
+     *              ),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response="200",
+     *          description="Successful operation.",
+     *          @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(
+     *                  @OA\Property(
+     *                      property="user",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          @OA\Property(
+     *                              property="%FIELD_NAME%",
+     *                              type="string"
+     *                          )
+     *                      )
+     *                  ),
+     *                  @OA\Property(
+     *                      property="access_token",
+     *                      type="string",
+     *                      default="true",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="redirect",
+     *                      type="string"
+     *                  ),
+     *              ),
+     *          )
+     *      )
+     * )
+     */
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function register(Request $request)
     {
         $registerData = $request->validate([
@@ -22,9 +118,96 @@ class AuthController extends Controller
 
         $accessToken = $user->createToken('authToken')->accessToken;
 
-        return response(['user' => $user, 'access_token' => $accessToken]);
+        return response([
+            'user' => $user,
+            'access_token' => $accessToken,
+            'redirect' => $this->redirectPath()
+        ]);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/login",
+     *     operationId="login",
+     *     tags={"Authentication"},
+     *     summary="Login",
+     *     description="Return user",
+     *     @OA\RequestBody(
+     *          request="User",
+     *          description="Enter user",
+     *          required=true,
+     *          @OA\JsonContent(
+     *               @OA\Property(
+     *                    property="email",
+     *                    example="user1@mail.com",
+     *                    type="string",
+     *                ),
+     *                @OA\Property(
+     *                    property="password",
+     *                    type="string",
+     *                    example="123456",
+     *               ),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *         response="422",
+     *         description="The given data was invalid.",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(
+     *                      property="errors",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          @OA\Property(
+     *                              property="%FIELD_NAME%",
+     *                              type="string"
+     *                          )
+     *                      )
+     *                  ),
+     *                  @OA\Property(
+     *                      property="message",
+     *                      type="srting"
+     *                  )
+     *              ),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response="200",
+     *          description="Successful operation.",
+     *          @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(
+     *                  @OA\Property(
+     *                      property="user",
+     *                      type="object",
+     *                      @OA\Items(
+     *                          @OA\Property(
+     *                              property="%FIELD_NAME%",
+     *                              type="string"
+     *                          )
+     *                      )
+     *                  ),
+     *                  @OA\Property(
+     *                      property="access_token",
+     *                      type="string",
+     *                      default="true",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="redirect",
+     *                      type="string"
+     *                  ),
+     *              ),
+     *          )
+     *      )
+     * )
+     */
+    /**
+     * Handle a login request for the application.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function login(Request $request)
     {
         $loginData = $request->validate([
@@ -37,7 +220,11 @@ class AuthController extends Controller
         }
         $accessToken = auth()->user()->createToken('auth')->accessToken;
 
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
+        return response([
+            'user' => auth()->user(),
+            'access_token' => $accessToken,
+            'redirect' => $this->redirectPath()
+        ]);
 
     }
 }
