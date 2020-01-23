@@ -116,12 +116,11 @@ class AuthController extends Controller
 
         $user = User::create($registerData);
 
-        $accessToken = $user->createToken('authToken')->accessToken;
-
+        $accessToken = $user->createToken('auth')->accessToken;
+        $user->access_token = $accessToken;
         return response([
             'user' => $user,
-            'access_token' => $accessToken,
-            'redirect' => $this->redirectPath()
+            'redirect' => '/home'
         ]);
     }
 
@@ -219,12 +218,66 @@ class AuthController extends Controller
             return response(['message' => 'Invalid credentials']);
         }
         $accessToken = auth()->user()->createToken('auth')->accessToken;
-
+        $user = auth()->user();
+        $user->access_token = $accessToken;
         return response([
-            'user' => auth()->user(),
-            'access_token' => $accessToken,
-            'redirect' => $this->redirectPath()
+            'user' => $user,
+            'redirect' => '/home'
         ]);
 
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/logout",
+     *     operationId="logout",
+     *     tags={"Authentication"},
+     *     summary="Logout",
+     *     description="Logs out current logged user session",
+     *     security={
+     *         {"bearerAuth": {}}
+     *      },
+     *     @OA\Response(
+     *         response="401",
+     *         description="Access token was invalid.",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(
+     *                      property="message",
+     *                      type="string",
+     *                  ),
+     *              ),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response="200",
+     *          description="Successful operation.",
+     *          @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(
+     *                  @OA\Property(
+     *                      property="message",
+     *                      type="string"
+     *                  ),
+     *              ),
+     *          )
+     *      )
+     * )
+     */
+    /**
+     * Handle a logout request for the application.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $token = $request->user()->token();
+
+        if ($token->revoke()) {
+            return response(['message' => 'You have been succesfully logged out!']);
+        }
+        return response(['message' => 'Failed to log out']);
     }
 }
