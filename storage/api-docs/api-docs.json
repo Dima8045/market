@@ -271,9 +271,108 @@
                     }
                 ]
             }
+        },
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get list of categories",
+                "description": "Returns list of categories",
+                "operationId": "get_categories",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
+        "schemas": {
+            "Category": {
+                "title": "Category",
+                "description": "Category model",
+                "properties": {
+                    "id": {
+                        "description": "Category Id",
+                        "type": "integer"
+                    },
+                    "parent_id": {
+                        "description": "Parent category Id",
+                        "type": "integer",
+                        "default": "null"
+                    },
+                    "name": {
+                        "description": "Name of category",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "timestamp of creating",
+                        "type": "string",
+                        "example": "2018-10-16 10:54:44"
+                    },
+                    "updated_at": {
+                        "description": "timestamp of last updated",
+                        "type": "string",
+                        "example": "2018-10-16 10:54:44"
+                    },
+                    "categoryImages": {
+                        "description": "Category images collection",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "category_id": {
+                                    "type": "integer"
+                                },
+                                "name_file": {
+                                    "type": "string"
+                                },
+                                "thambnail_tile": {
+                                    "type": "integer"
+                                },
+                                "alt": {
+                                    "type": "integer"
+                                },
+                                "sort_order": {
+                                    "type": "integer"
+                                },
+                                "created_at": {
+                                    "description": "timestamp of creating",
+                                    "type": "string",
+                                    "example": "2018-10-16 10:54:44"
+                                },
+                                "updated_at": {
+                                    "description": "timestamp of last updated",
+                                    "type": "string",
+                                    "example": "2018-10-16 10:54:44"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",

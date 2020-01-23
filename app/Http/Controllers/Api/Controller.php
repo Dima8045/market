@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Api;
 
 /**
- * schemas={"http,https"}
+ * schemas={"http"}
  * @OA\Info(
  *     title="Market API",
  *     version="1.0.0",
