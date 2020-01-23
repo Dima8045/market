@@ -19,12 +19,12 @@
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
     </head>
     <body class="{{ $class ?? '' }}">
-        @auth()
+        @hasanyrole('super-admin|admin|editor')
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
             @include('layouts.navbars.sidebar')
-        @endauth
+        @endhasanyrole
         
         <div class="main-content">
             @include('layouts.navbars.navbar')
