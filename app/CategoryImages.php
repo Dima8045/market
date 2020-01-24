@@ -8,10 +8,8 @@ class CategoryImages extends Model
 {
     protected $fillable = [
         'category_id',
-        'name_files',
-        'path',
+        'image',
         'thumbnail_files',
-        'thumbnail_path',
         'alt',
         'sort_order'
     ];

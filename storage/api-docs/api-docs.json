@@ -343,7 +343,7 @@
                                 "category_id": {
                                     "type": "integer"
                                 },
-                                "name_file": {
+                                "image": {
                                     "type": "string"
                                 },
                                 "thambnail_tile": {

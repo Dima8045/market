@@ -16,8 +16,7 @@ class CreateCategoryImagesTable extends Migration
         Schema::create('category_images', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('category_id')->unsigned()->nullable();
-            $table->string('name_file')->nullable();
-            $table->string('thumbnail_file')->nullable();
+            $table->string('image')->nullable();
             $table->string('alt')->nullable();
             $table->bigInteger('sort_order')->unsigned()->nullable();
             $table->timestamps();

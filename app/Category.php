@@ -60,12 +60,8 @@ class Category extends Model
      *             type="integer",
      *         ),
      *         @OA\Property(
-     *             property="name_file",
+     *             property="image",
      *             type="string",
-     *         ),
-     *         @OA\Property(
-     *             property="thambnail_tile",
-     *             type="integer",
      *         ),
      *         @OA\Property(
      *             property="alt",

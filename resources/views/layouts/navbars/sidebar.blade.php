@@ -5,8 +5,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="{{ route('home') }}">
-            <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="...">
+        <a class="navbar-brand pt-0 " href="{{ route('home') }}">
+            <a class="h2 mb-0 text-blue text-center text-uppercase d-none d-lg-inline-block" href="{{ route('home') }}">{{ env('APP_NAME') }}</a>
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
@@ -106,8 +106,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
+                    <a class="nav-link" href="{{ route('categories.index') }}">
+                        <i class="ni ni-planet text-blue"></i> {{ __('Categories') }}
                     </a>
                 </li>
                 <li class="nav-item">
