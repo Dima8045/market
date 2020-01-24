@@ -16,9 +16,7 @@ Route::get('/', function () {
 });
 Auth::routes();
 
-Route::get('/', 'HomeController@index');
-
-Route::group(['middleware' => ['auth', 'role:super-admin']], function () {
+Route::group(['middleware' => ['auth', 'role:super-admin,admin,editor']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('user', 'UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
