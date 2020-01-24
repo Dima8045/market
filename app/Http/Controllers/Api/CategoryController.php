@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Category;
+use App\Helpers\StrHelper;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller

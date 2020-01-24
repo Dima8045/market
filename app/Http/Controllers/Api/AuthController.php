@@ -115,6 +115,8 @@ class AuthController extends Controller
 
         $user = User::create($registerData);
 
+        $user->assignRole('customer');
+
         $accessToken = $user->createToken('auth')->accessToken;
         $user->access_token = $accessToken;
         return response([
