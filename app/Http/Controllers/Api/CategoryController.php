@@ -2,12 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Category;
-use App\Helpers\StrHelper;
-use Illuminate\Http\Request;
+use App\Repositories\CategoryRepository;
 
+/**
+ * Class CategoryController
+ * @package App\Http\Controllers\Api
+ */
 class CategoryController extends Controller
 {
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    /**
+     * CategoryController constructor.
+     * @param CategoryRepository $catRepo
+     */
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
     /**
      * @OA\Get(
      *      path="/categories",
@@ -31,8 +46,8 @@ class CategoryController extends Controller
      /**
      * Returns list of categories
      */
-    public function index(Category $category)
+    public function index()
     {
-        return response($category->with('categoryImages')->get());
+        return response($this->categoryRepository->get());
     }
 }

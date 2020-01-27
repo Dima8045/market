@@ -7,6 +7,7 @@ use App\Helpers\StrHelper;
 use App\Http\Requests\CreateCategoryRequest;
 use Illuminate\Http\Request;
 use App\Http\Services\ImageService;
+use App\Repositories\CategoryRepository;
 
 class CategoryController extends Controller
 {
@@ -14,10 +15,15 @@ class CategoryController extends Controller
      * @var ImageService
      */
     private $imageService;
+    private $categoryRepository;
 
-    public function __construct(ImageService $imageService)
+    public function __construct(
+        ImageService $imageService,
+        CategoryRepository $categoryRepository
+    )
     {
         $this->imageService = $imageService;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -48,16 +54,11 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateCategoryRequest $request, Category $model)
+    public function store(CreateCategoryRequest $request)
     {
-
-//        dd($request->has('image') ? StrHelper::rebuildFolderFormat($request->name) : null);
         $folder = $request->has('image') ? StrHelper::rebuildFolderFormat($request->name) : null;
-        $result = $model->create([
-            'name' => $request->name,
-            'parent_id' => $request->parent_id ?? null,
-            'image_folder' => $folder,
-        ]);
+
+        $result = $this->categoryRepository->create($request, $folder);
         if ($request->has('image')){
             $file = $request->file('image');
             $fileName = $this->imageService->upload($file, $folder);

@@ -96,4 +96,5 @@ class Category extends Model
     {
         return $this->hasMany(CategoryImages::class);
     }
+
 }
