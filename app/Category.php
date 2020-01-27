@@ -94,7 +94,7 @@ class Category extends Model
      */
     public function categoryImages()
     {
-        return $this->hasMany(CategoryImages::class);
+        return $this->hasMany(CategoryImage::class);
     }
 
 }
