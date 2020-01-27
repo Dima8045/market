@@ -13,8 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $fillable = [
-      'parent_id',
-      'name'
+        'parent_id',
+        'name',
+        'image_folder',
     ];
 
     /**
@@ -33,6 +34,11 @@ class Category extends Model
      *     property="name",
      *     type="string",
      *     description="Name of category"
+     * )
+     * @OA\Property(
+     *     property="image_folder",
+     *     type="string",
+     *     description="Category images folder name"
      * )
      * @OA\Property(
      *     property="created_at",

@@ -45,7 +45,7 @@ abstract class StorageHelper
             $folder .= '/' . self::prependWithSubFolders($name, true);
         }
 
-        $file->storeAs(StrHelper::rebuildFolderFormat($folder), $name, ['disk' => $disk]);
+        $file->storeAs($folder, $name, ['disk' => $disk]);
         return $name;
     }
 

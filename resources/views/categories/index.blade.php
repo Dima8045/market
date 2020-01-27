@@ -41,8 +41,7 @@
                             <tbody>
                                 @foreach ($categories as $category)
                                     <tr>
-                                        <td><img style="height: 50px" src="{{ !empty($image = $category->categoryImages->first()) ? asset('storage'). '/' . \App\Helpers\StrHelper::rebuildFolderFormat($category->name) . '/' . $image->image : '' }}" alt="{{ !empty($image = $category->categoryImages->first()) ? $image->alt : '' }}"></td>
-                                        <td><a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a></td>
+                                        <td><img style="height: 50px" src="{{ !empty($category->categoryImages) ? asset('storage/'.$category->image_folder). '/' . $category->categoryImages->first()->image : '' }}" alt="{{ !empty($image = $category->categoryImages->first()) ? $image->alt : '' }}"></td>                                        <td><a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a></td>
                                         <td class="text-right">
                                             <div class="dropdown">
                                                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

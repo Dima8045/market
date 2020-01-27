@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Helpers\StrHelper;
 use App\Http\Requests\CreateCategoryRequest;
 use Illuminate\Http\Request;
 use App\Http\Services\ImageService;
@@ -49,13 +50,17 @@ class CategoryController extends Controller
      */
     public function store(CreateCategoryRequest $request, Category $model)
     {
+
+//        dd($request->has('image') ? StrHelper::rebuildFolderFormat($request->name) : null);
+        $folder = $request->has('image') ? StrHelper::rebuildFolderFormat($request->name) : null;
         $result = $model->create([
             'name' => $request->name,
             'parent_id' => $request->parent_id ?? null,
+            'image_folder' => $folder,
         ]);
         if ($request->has('image')){
             $file = $request->file('image');
-            $fileName = $this->imageService->upload($file, $request->name);
+            $fileName = $this->imageService->upload($file, $folder);
             $result->categoryImages()->create([
                 'image' => $fileName ?? null,
                 'alt' => $request->alt ?? null,
