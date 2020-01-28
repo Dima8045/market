@@ -12,6 +12,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Category extends Model
 {
+    /**
+     * Categories per page
+     */
+    const CATEGORIES_PAGE=10;
+
+    /**
+     * @var array
+     */
     protected $fillable = [
         'parent_id',
         'name',
@@ -92,9 +100,14 @@ class Category extends Model
      *     )
      * )
      */
+
     public function categoryImages()
     {
         return $this->hasMany(CategoryImage::class);
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

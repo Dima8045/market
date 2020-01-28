@@ -322,6 +322,10 @@
                         "description": "Name of category",
                         "type": "string"
                     },
+                    "image_folder": {
+                        "description": "Category images folder name",
+                        "type": "string"
+                    },
                     "created_at": {
                         "description": "timestamp of creating",
                         "type": "string",
@@ -345,9 +349,6 @@
                                 },
                                 "image": {
                                     "type": "string"
-                                },
-                                "thambnail_tile": {
-                                    "type": "integer"
                                 },
                                 "alt": {
                                     "type": "integer"

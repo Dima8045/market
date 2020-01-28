@@ -3,24 +3,24 @@
 
 namespace App\Repositories;
 
-use App\Category;
+use App\Product;
 
 /**
- * Class CategoryRepository
+ * Class ProductRepository
  * @package App\Repositories
  */
-class CategoryRepository extends BaseRepository
+class ProductRepository extends BaseRepository
 {
     /**
-     * @var Category
+     * @var Product
      */
     private $model;
 
     /**
-     * CategoryRepository constructor.
-     * @param Category $model
+     * ProductRepository constructor.
+     * @param Product $model
      */
-    public function __construct(Category $model)
+    public function __construct(Product $model)
     {
         $this->model = $model;
     }
@@ -32,7 +32,7 @@ class CategoryRepository extends BaseRepository
      */
     public function get() :object
     {
-        return $this->joiningPaths($this->model->with('categoryImages')->get());
+        return $this->joiningPaths($this->model->with('productImages')->get());
     }
 
     /**
@@ -46,8 +46,12 @@ class CategoryRepository extends BaseRepository
     {
         return $this->model->create([
             'name' => $request->name,
-            'parent_id' => $request->parent_id ?? null,
+            'description' => $request->description ?? null,
+            'category_id' => $request->category_id,
+            'unit_id' => $request->unit_id,
+            'alt' => $request->alt ?? null,
             'image_folder' => $folder,
         ]);
     }
+
 }

@@ -2,18 +2,54 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Helpers\StrHelper;
+use App\Http\Requests\CreateProductRequest;
+use App\Http\Services\ImageService;
+use App\Product;
+use App\Unit;
 use Illuminate\Http\Request;
+use App\Repositories\ProductRepository;
 
 class ProductController extends Controller
 {
+    /**
+     * @var ImageService
+     */
+    private $imageService;
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
+
+    /**
+     * ProductController constructor.
+     * @param ProductRepository $productRepository
+     * @param ImageService $imageService
+     */
+    public function __construct(
+        ProductRepository $productRepository,
+        ImageService $imageService
+    )
+    {
+        $this->imageService = $imageService;
+        $this->productRepository = $productRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Category $category, Product $product)
     {
-        //
+        if ($request->has('category')) {
+            $product = $product->where('category_id', $request->category);
+            $category = $category::where('id', $request->category);
+        }
+        $categories = $category->get();
+        $products = $product->with('category', 'productImages', 'unit')->paginate(Product::PRODUCTS_PAGE);
+        return view('products.index', compact('products', 'categories'));
     }
 
     /**
@@ -23,7 +59,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::get(['id', 'name']);
+        $units = Unit::get(['id','name']);
+        return view('products.create', compact('categories', 'units'));
     }
 
     /**
@@ -32,9 +70,23 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateProductRequest $request)
     {
-        //
+        $category = Category::find($request->category_id)->image_folder;
+        $folder = $request->has('image') ? StrHelper::rebuildFolderFormat('products' . '/' . $category . '/' . $request->name) : null;
+        $result = $this->productRepository->create($request, $folder);
+        if ($request->has('image')){
+            $files = $request->file('image');
+            foreach ($files as $file) {
+                $fileName = $this->imageService->upload($file, $folder);
+                $result->productImages()->create([
+                    'image' => $fileName ?? null,
+                    'alt' => $request->alt ?? null,
+                ]);
+            }
+        }
+
+        return redirect(route('products.index'))->withStatus(__('Product successfully created.'));
     }
 
     /**

@@ -15,8 +15,16 @@ class CategoryController extends Controller
      * @var ImageService
      */
     private $imageService;
+    /**
+     * @var CategoryRepository
+     */
     private $categoryRepository;
 
+    /**
+     * CategoryController constructor.
+     * @param ImageService $imageService
+     * @param CategoryRepository $categoryRepository
+     */
     public function __construct(
         ImageService $imageService,
         CategoryRepository $categoryRepository
@@ -34,7 +42,7 @@ class CategoryController extends Controller
     public function index(Category $model)
     {
         return view('categories.index', [
-            'categories' => $model->with('categoryImages')->paginate(15),
+            'categories' => $model->with('categoryImages')->paginate(Category::CATEGORIES_PAGE),
         ]);
     }
 

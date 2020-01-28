@@ -22,7 +22,6 @@ Route::group([
     'middleware' => ['auth:api', 'json.response'],
 ], function () {
     Route::get('/logout', 'AuthController@logout')->name('logout');
-    Route::get('/categories', 'CategoryController@index')->name('categories');
 });
 
 Route::group([
@@ -30,4 +29,5 @@ Route::group([
     ], function () {
     Route::post('/register', 'AuthController@register')->name('register');
     Route::post('/login', 'AuthController@login')->name('login');
+    Route::get('/categories', 'CategoryController@index')->name('categories');
 });

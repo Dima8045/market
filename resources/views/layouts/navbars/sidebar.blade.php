@@ -84,23 +84,27 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
-                        <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Laravel Examples') }}</span>
+                    <a class="nav-link active" href="#navbar-products" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-products">
+                        <i class="fas fa-th-large" style="color: #f4645f;"></i>
+                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Products') }}</span>
                     </a>
 
-                    <div class="collapse show" id="navbar-examples">
+                    <div class="collapse show" id="navbar-products">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile.edit') }}">
-                                    {{ __('User profile') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.index') }}">
-                                    {{ __('User Management') }}
-                                </a>
-                            </li>
+                            @if(($categories = \App\Category::get(['id', 'name'])))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('products.index') }}">
+                                        {{ __('All') }}
+                                    </a>
+                                </li>
+                                @foreach($categories as $category)
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->query('category') == $category->id ? 'active' : ''}} " href="{{ route('products.index', ['category' => $category->id]) }}">
+                                            {{ __($category->name) }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            @endif
                         </ul>
                     </div>
                 </li>
@@ -111,8 +115,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}
+                    <a class="nav-link" href="{{ route('products.index') }}">
+                        <i class="ni ni-box-2 text-orange"></i> {{ __('Products') }}
                     </a>
                 </li>
                 <li class="nav-item">
