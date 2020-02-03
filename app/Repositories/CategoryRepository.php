@@ -32,7 +32,12 @@ class CategoryRepository extends BaseRepository
      */
     public function list() :object
     {
-        return $this->joiningPaths($this->model->with('categoryImages')->get());
+        $categories = $this->model
+            ->select(['id', 'parent_id', 'image_folder', 'name'])
+            ->with(['categoryImages' => function($query) {
+                $query->select(['id', 'image', 'category_id', 'alt', 'sort_order']);
+            }])->get();
+        return $this->joiningPaths($categories);
     }
 
 

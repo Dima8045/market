@@ -119,18 +119,6 @@ class CategoryController extends Controller
      *                          description="Category images folder name"
      *                      ),
      *                      @OA\Property(
-     *                          property="created_at",
-     *                          type="string",
-     *                          description="timestamp of creating",
-     *                          example="2018-10-16 10:54:44"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="updated_at",
-     *                          type="string",
-     *                          description="timestamp of last updated",
-     *                          example="2018-10-16 10:54:44"
-     *                      ),
-     *                      @OA\Property(
      *                          property="categoryImages",
      *                          type="array",
      *                          description="Category images collection",
@@ -155,18 +143,6 @@ class CategoryController extends Controller
      *                                  property="sort_order",
      *                                  type="integer",
      *                              ),
-     *                              @OA\Property(
-     *                                  property="created_at",
-     *                                  type="string",
-     *                                  description="timestamp of creating",
-     *                                  example="2018-10-16 10:54:44"
-     *                              ),
-     *                              @OA\Property(
-     *                                  property="updated_at",
-     *                                  type="string",
-     *                                  description="timestamp of last updated",
-     *                                  example="2018-10-16 10:54:44"
-     *                              )
      *                          )
      *                      )
      *                  )

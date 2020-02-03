@@ -358,16 +358,6 @@
                                                 "description": "Category images folder name",
                                                 "type": "string"
                                             },
-                                            "created_at": {
-                                                "description": "timestamp of creating",
-                                                "type": "string",
-                                                "example": "2018-10-16 10:54:44"
-                                            },
-                                            "updated_at": {
-                                                "description": "timestamp of last updated",
-                                                "type": "string",
-                                                "example": "2018-10-16 10:54:44"
-                                            },
                                             "categoryImages": {
                                                 "description": "Category images collection",
                                                 "type": "array",
@@ -387,16 +377,6 @@
                                                         },
                                                         "sort_order": {
                                                             "type": "integer"
-                                                        },
-                                                        "created_at": {
-                                                            "description": "timestamp of creating",
-                                                            "type": "string",
-                                                            "example": "2018-10-16 10:54:44"
-                                                        },
-                                                        "updated_at": {
-                                                            "description": "timestamp of last updated",
-                                                            "type": "string",
-                                                            "example": "2018-10-16 10:54:44"
                                                         }
                                                     },
                                                     "type": "object"
