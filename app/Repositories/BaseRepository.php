@@ -17,10 +17,11 @@ class BaseRepository
      */
     protected function joiningPaths($collection) :object
     {
-        return $collection->map(function ($model) {
+        $collection->transform(function ($model) {
             $model->image_folder = asset('storage') . '/' .$model->image_folder;
             return $model;
         });
+        return $collection;
     }
 
 }

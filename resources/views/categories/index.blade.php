@@ -39,37 +39,41 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categories as $category)
-                                    <tr>
-                                        <td><img style="height: 50px" src="{{ $category->categoryImages->count() > 0 ? asset('storage/'.$category->image_folder). '/' . $category->categoryImages->first()->image : '' }}" alt="{{ !empty($image = $category->categoryImages->first()) ? $image->alt : '' }}"></td>                                        <td><a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a></td>
-                                        <td class="text-center">
-                                            <div class="dropdown">
-                                                <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                    @hasanyrole('super-admin|admin|editor')
-                                                    <form action="{{ route('categories.destroy', $category) }}" method="post">
-                                                            @csrf
-                                                            @method('delete')
+                                @if(!empty($categories))
+                                    @foreach ($categories as $category)
+                                        <tr>
+                                            <td><img style="height: 50px" src="{{ $category->categoryImages->count() > 0 ? $category->image_folder . '/' . $category->categoryImages->first()->image : '' }}" alt="{{ !empty($image = $category->categoryImages->first()) ? $image->alt : '' }}"></td>                                        <td><a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a></td>
+                                            <td class="text-center">
+                                                <div class="dropdown">
+                                                    <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                        @hasanyrole('super-admin|admin|editor')
+                                                        <form action="{{ route('categories.destroy', $category) }}" method="post">
+                                                                @csrf
+                                                                @method('delete')
 
-                                                            <a class="dropdown-item" href="{{ route('categories.edit', $category) }}">{{ __('Edit') }}</a>
-                                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this category?") }}') ? this.parentElement.submit() : ''">
-                                                                {{ __('Delete') }}
-                                                            </button>
-                                                        </form>
-                                                    @endhasanyrole
+                                                                <a class="dropdown-item" href="{{ route('categories.edit', $category) }}">{{ __('Edit') }}</a>
+                                                                <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this category?") }}') ? this.parentElement.submit() : ''">
+                                                                    {{ __('Delete') }}
+                                                                </button>
+                                                            </form>
+                                                        @endhasanyrole
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
                     <div class="card-footer py-4">
                         <nav class="d-flex justify-content-end" aria-label="...">
-                            {{ $categories->links() }}
+                            @if(!empty($categories))
+                                {{ $categories->links() }}
+                            @endif
                         </nav>
                     </div>
                 </div>

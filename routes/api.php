@@ -26,8 +26,21 @@ Route::group([
 
 Route::group([
         'namespace' => 'Api',
+        'middleware' => 'json.response'
     ], function () {
-    Route::post('/register', 'AuthController@register')->name('register');
-    Route::post('/login', 'AuthController@login')->name('login');
-    Route::get('/categories', 'CategoryController@index')->name('categories');
+        Route::post('/register', 'AuthController@register')->name('register');
+        Route::post('/login', 'AuthController@login')->name('login');
+        Route::group([
+            'prefix' => 'categories',
+            'as'=>'categories.'
+        ], function () {
+            Route::get('/', 'CategoryController@index')->name('categories');
+            Route::get('/list', 'CategoryController@list')->name('list');
+        });
+        Route::group([
+            'prefix' => 'products',
+            'as'=>'products.'
+        ], function () {
+            Route::get('/', 'ProductController@index')->name('products');
+        });
 });

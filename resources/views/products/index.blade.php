@@ -10,7 +10,9 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">{{ __(($categories->count() > 1 ? 'All' : $categories->first()->name) ?? 'All') }} </h3>
+                                @if(!empty($categories))
+                                    <h3 class="mb-0">{{ __($categories->count() > 1 ? 'All' : $categories->first()->name) }} </h3>
+                                @endif
                             </div>
                             <div class="col-4 text-right">
                                 <a href="{{ route('products.create') }}" class="btn btn-sm btn-primary">{{ __('Add product') }}</a>
@@ -45,7 +47,7 @@
                                 @if(!empty($products))
                                     @foreach ($products as $product)
                                         <tr>
-                                            <td><img style="height: 50px" src="{{ $product->productImages->count() > 0 ? asset('storage/'.$product->image_folder). '/' . $product->productImages->first()->image : '' }}" alt="{{ !empty($image = $product->productImages->first()) ? $image->alt : '' }}"></td>
+                                            <td><img style="height: 50px" src="{{ $product->productImages->count() > 0 ? $product->image_folder. '/' . $product->productImages->first()->image : '' }}" alt="{{ !empty($image = $product->productImages->first()) ? $image->alt : '' }}"></td>
                                             <td><a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a></td>
                                             <td>{{ $product->category->name }}</td>
                                             <td>{{ \Illuminate\Support\Str::limit($product->description, 30, '...') }}</td>
@@ -58,11 +60,11 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                                         @hasanyrole('super-admin|admin|editor')
-                                                        <form action="{{ route('products.destroy', $products) }}" method="post">
+                                                        <form action="{{ route('products.destroy', $product) }}" method="post">
                                                                 @csrf
                                                                 @method('delete')
 
-                                                                <a class="dropdown-item" href="{{ route('products.edit', $products) }}">{{ __('Edit') }}</a>
+                                                                <a class="dropdown-item" href="{{ route('products.edit', $product) }}">{{ __('Edit') }}</a>
                                                                 <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this product?") }}') ? this.parentElement.submit() : ''">
                                                                     {{ __('Delete') }}
                                                                 </button>

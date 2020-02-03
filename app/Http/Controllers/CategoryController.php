@@ -39,10 +39,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $model)
+    public function index(Request $request)
     {
+        $request->merge(['perpage' => Category::CATEGORIES_ADMIN_PAGE]);
         return view('categories.index', [
-            'categories' => $model->with('categoryImages')->paginate(Category::CATEGORIES_PAGE),
+            'categories' => $this->categoryRepository->getCategory($request),
         ]);
     }
 

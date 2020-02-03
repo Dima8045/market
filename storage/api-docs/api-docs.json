@@ -272,14 +272,13 @@
                 ]
             }
         },
-        "/categories": {
+        "/categories/list": {
             "get": {
                 "tags": [
                     "Categories"
                 ],
                 "summary": "Get list of categories",
-                "description": "Returns list of categories",
-                "operationId": "get_categories",
+                "operationId": "categoriesList",
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -288,111 +287,306 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Category"
+                                        "properties": {
+                                            "id": {
+                                                "description": "Category Id",
+                                                "type": "integer"
+                                            },
+                                            "parent_id": {
+                                                "description": "Parent category Id",
+                                                "type": "integer",
+                                                "default": "null"
+                                            },
+                                            "name": {
+                                                "description": "Name of category",
+                                                "type": "string"
+                                            },
+                                            "image_folder": {
+                                                "description": "Category images folder name",
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "description": "timestamp of creating",
+                                                "type": "string",
+                                                "example": "2018-10-16 10:54:44"
+                                            },
+                                            "updated_at": {
+                                                "description": "timestamp of last updated",
+                                                "type": "string",
+                                                "example": "2018-10-16 10:54:44"
+                                            }
+                                        },
+                                        "type": "object"
                                     }
                                 }
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
+                }
+            }
+        },
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get list of categories with relation data",
+                "operationId": "categories",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "Category Id",
+                                                "type": "integer"
+                                            },
+                                            "parent_id": {
+                                                "description": "Parent category Id",
+                                                "type": "integer",
+                                                "default": "null"
+                                            },
+                                            "name": {
+                                                "description": "Name of category",
+                                                "type": "string"
+                                            },
+                                            "image_folder": {
+                                                "description": "Category images folder name",
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "description": "timestamp of creating",
+                                                "type": "string",
+                                                "example": "2018-10-16 10:54:44"
+                                            },
+                                            "updated_at": {
+                                                "description": "timestamp of last updated",
+                                                "type": "string",
+                                                "example": "2018-10-16 10:54:44"
+                                            },
+                                            "categoryImages": {
+                                                "description": "Category images collection",
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer"
+                                                        },
+                                                        "category_id": {
+                                                            "type": "integer"
+                                                        },
+                                                        "image": {
+                                                            "type": "string"
+                                                        },
+                                                        "alt": {
+                                                            "type": "integer"
+                                                        },
+                                                        "sort_order": {
+                                                            "type": "integer"
+                                                        },
+                                                        "created_at": {
+                                                            "description": "timestamp of creating",
+                                                            "type": "string",
+                                                            "example": "2018-10-16 10:54:44"
+                                                        },
+                                                        "updated_at": {
+                                                            "description": "timestamp of last updated",
+                                                            "type": "string",
+                                                            "example": "2018-10-16 10:54:44"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
                     }
-                ]
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Get list of categories with relation data",
+                "operationId": "products",
+                "parameters": [
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "description": "The category id specific products category",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "perpage",
+                        "in": "query",
+                        "description": "Products per page",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Products page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "products": {
+                                            "description": "Products list and pagination parameters",
+                                            "properties": {
+                                                "current_page": {
+                                                    "description": "Current page number",
+                                                    "type": "integer"
+                                                },
+                                                "data": {
+                                                    "description": "Products array",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "description": "Product ID",
+                                                                "type": "integer"
+                                                            },
+                                                            "name": {
+                                                                "description": "Product name",
+                                                                "type": "string"
+                                                            },
+                                                            "category_id": {
+                                                                "description": "Product category ID",
+                                                                "type": "integer"
+                                                            },
+                                                            "image_folder": {
+                                                                "description": "Product image folder url",
+                                                                "type": "string"
+                                                            },
+                                                            "unit_id": {
+                                                                "description": "Product unit ID",
+                                                                "type": "integer"
+                                                            },
+                                                            "sort_order": {
+                                                                "description": "Sort product value",
+                                                                "type": "integer"
+                                                            },
+                                                            "category": {
+                                                                "description": "Specified product category",
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "description": "Specified product category id",
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "parent_id": {
+                                                                        "description": "Specified parent category id",
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "name": {
+                                                                        "description": "Specified product category name",
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "product_images": {
+                                                                "description": "Specified product images",
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "description": "Specified product category id",
+                                                                            "type": "integer"
+                                                                        },
+                                                                        "parent_id": {
+                                                                            "description": "Specified parent category id",
+                                                                            "type": "integer"
+                                                                        },
+                                                                        "name": {
+                                                                            "description": "Specified product category name",
+                                                                            "type": "string"
+                                                                        },
+                                                                        "alt": {
+                                                                            "description": "Specified product alternative name",
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "unit": {
+                                                                "description": "Product unit",
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "description": "Prodict unit ID",
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "name": {
+                                                                        "description": "Prodict unit name",
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "last_page": {
+                                                    "description": "Last page number",
+                                                    "type": "integer"
+                                                },
+                                                "path": {
+                                                    "description": "Url to current path",
+                                                    "type": "string"
+                                                },
+                                                "per_page": {
+                                                    "description": "Products per page",
+                                                    "type": "string"
+                                                },
+                                                "total": {
+                                                    "description": "Total products number",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
     "components": {
-        "schemas": {
-            "Category": {
-                "title": "Category",
-                "description": "Category model",
-                "properties": {
-                    "id": {
-                        "description": "Category Id",
-                        "type": "integer"
-                    },
-                    "parent_id": {
-                        "description": "Parent category Id",
-                        "type": "integer",
-                        "default": "null"
-                    },
-                    "name": {
-                        "description": "Name of category",
-                        "type": "string"
-                    },
-                    "image_folder": {
-                        "description": "Category images folder name",
-                        "type": "string"
-                    },
-                    "created_at": {
-                        "description": "timestamp of creating",
-                        "type": "string",
-                        "example": "2018-10-16 10:54:44"
-                    },
-                    "updated_at": {
-                        "description": "timestamp of last updated",
-                        "type": "string",
-                        "example": "2018-10-16 10:54:44"
-                    },
-                    "categoryImages": {
-                        "description": "Category images collection",
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "id": {
-                                    "type": "integer"
-                                },
-                                "category_id": {
-                                    "type": "integer"
-                                },
-                                "image": {
-                                    "type": "string"
-                                },
-                                "alt": {
-                                    "type": "integer"
-                                },
-                                "sort_order": {
-                                    "type": "integer"
-                                },
-                                "created_at": {
-                                    "description": "timestamp of creating",
-                                    "type": "string",
-                                    "example": "2018-10-16 10:54:44"
-                                },
-                                "updated_at": {
-                                    "description": "timestamp of last updated",
-                                    "type": "string",
-                                    "example": "2018-10-16 10:54:44"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "type": "object"
-            }
-        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
                 "bearerFormat": "JWT",
                 "scheme": "bearer"
-            },
-            "passport": {
-                "type": "oauth2",
-                "description": "Laravel passport oauth2 security.",
-                "in": "header",
-                "scheme": "https",
-                "flows": {
-                    "password": {
-                        "authorizationUrl": "http://market.loc/oauth/authorize",
-                        "tokenUrl": "http://market.loc/oauth/token",
-                        "refreshUrl": "http://market.loc/token/refresh",
-                        "scopes": []
-                    }
-                }
             }
         }
     }

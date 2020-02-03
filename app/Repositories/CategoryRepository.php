@@ -26,16 +26,31 @@ class CategoryRepository extends BaseRepository
     }
 
     /**
-     * Custom method get()
+     * Method list return resource with relation
      *
      * @return object
      */
-    public function get() :object
+    public function list() :object
     {
         return $this->joiningPaths($this->model->with('categoryImages')->get());
     }
 
+
     /**
+     * Method getCategory per page and consider category
+     *
+     * @return object
+     */
+    public function getCategory($request) :object
+    {
+        $categories = $this->model;
+        if ($request->has('category')) {
+            $categories = $this->model->where('id', $request->category);
+        }
+        return $this->joiningPaths($categories->with( 'categoryImages')->paginate($request->input('perpage')));
+    }
+
+        /**
      * Custom method create()
      *
      * @param object $request

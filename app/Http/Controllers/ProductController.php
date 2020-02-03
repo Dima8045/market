@@ -6,7 +6,7 @@ use App\Category;
 use App\Helpers\StrHelper;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Services\ImageService;
-use App\Product;
+use App\Repositories\CategoryRepository;
 use App\Unit;
 use Illuminate\Http\Request;
 use App\Repositories\ProductRepository;
@@ -21,35 +21,39 @@ class ProductController extends Controller
      * @var ProductRepository
      */
     private $productRepository;
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
 
     /**
      * ProductController constructor.
      * @param ProductRepository $productRepository
      * @param ImageService $imageService
+     * @param CategoryRepository $categoryRepository
      */
     public function __construct(
         ProductRepository $productRepository,
-        ImageService $imageService
+        ImageService $imageService,
+        CategoryRepository $categoryRepository
     )
     {
         $this->imageService = $imageService;
         $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource case category.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request, Category $category, Product $product)
+    public function index(Request $request)
     {
-        if ($request->has('category')) {
-            $product = $product->where('category_id', $request->category);
-            $category = $category::where('id', $request->category);
-        }
-        $categories = $category->get();
-        $products = $product->with('category', 'productImages', 'unit')->paginate(Product::PRODUCTS_PAGE);
-        return view('products.index', compact('products', 'categories'));
+        $categories = $this->categoryRepository->getCategory($request);
+        $products = $this->productRepository->getProducts($request);
+        return view('products.index', compact('categories', 'products'));
     }
 
     /**

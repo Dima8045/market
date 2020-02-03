@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     /**
-     * Products per page
+     * Products per admin page
      */
-    const PRODUCTS_PAGE=15;
+    const PRODUCTS_ADMIN_PAGE=15;
+
+    /**
+     * Products per client page
+     */
+    const PRODUCTS_CLIENT_PAGE=12;
 
     /**
      * @var array
@@ -23,6 +28,15 @@ class Product extends Model
         'image_folder',
         'sort_order'
     ];
+
+    public $excludeColumns = [
+        'unit_id'
+    ];
+
+    public function scopeExclude($query,$value = array())
+    {
+        return $query->select( array_intersect( $this->excludeColumns,(array) $value) );
+    }
 
     public function productImages()
     {
