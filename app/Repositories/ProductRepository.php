@@ -48,7 +48,7 @@ class ProductRepository extends BaseRepository
             $products = $this->model->where('category_id', $request->category);
         }
         $products = $products->select(
-            'id', 'name', 'category_id', 'image_folder', 'unit_id', 'sort_order'
+            'id', 'name', 'category_id', 'description', 'price', 'image_folder', 'unit_id', 'sort_order'
         )
             ->with(['category' => function($query) {
                 $query->select('id', 'parent_id', 'name');
@@ -80,6 +80,7 @@ class ProductRepository extends BaseRepository
         return $this->model->create([
             'name' => $request->name,
             'description' => $request->description ?? null,
+            'price' => $request->price ?? null,
             'category_id' => $request->category_id,
             'unit_id' => $request->unit_id,
             'alt' => $request->alt ?? null,

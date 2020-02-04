@@ -64,7 +64,7 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::get(['id', 'name']);
-        $units = Unit::get(['id','name']);
+        $units = Unit::get(['id','name', 'description']);
         return view('products.create', compact('categories', 'units'));
     }
 

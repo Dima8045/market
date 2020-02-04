@@ -19,7 +19,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-12">
                         @if (session('status'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -50,7 +50,7 @@
                                             <td><img style="height: 50px" src="{{ $product->productImages->count() > 0 ? $product->image_folder. '/' . $product->productImages->first()->image : '' }}" alt="{{ !empty($image = $product->productImages->first()) ? $image->alt : '' }}"></td>
                                             <td><a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a></td>
                                             <td>{{ $product->category->name }}</td>
-                                            <td>{{ \Illuminate\Support\Str::limit($product->description, 30, '...') }}</td>
+                                            <td>{{ \Illuminate\Support\Str::limit($product->description, 55, '...') }}</td>
                                             <td>{{ $product->price }} $</td>
                                             <td>{{ $product->unit->name }}</td>
                                             <td class="text-center">
@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-            
+
         @include('layouts.footers.auth')
     </div>
 @endsection

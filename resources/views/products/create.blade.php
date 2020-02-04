@@ -20,7 +20,7 @@
                     <div class="card-body">
                         <form method="post" action="{{ route('products.store') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
-                            
+
                             <h6 class="heading-small text-muted mb-4">{{ __('Product information') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
@@ -45,11 +45,11 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('category_id') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="select-category">{{ __('Parent Category') }}</label>
-                                    <select type="select" name="category_id" id="select-category" class="form-control form-control-alternative{{ $errors->has('category_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Category') }}" value="{{ old('category_id') }}" required autofocus>
+                                    <select type="select" name="category_id" id="select-category" class="form-control form-control-alternative{{ $errors->has('category_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Category') }}" required autofocus>
                                         @if(!empty($categories))
                                             <option value="">Category</option>
                                             @foreach($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}" {{ old('category_id') && old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -62,11 +62,11 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('unit_id') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="select-unit">{{ __('Unit') }}</label>
-                                    <select type="select" name="unit_id" id="select-unit" class="form-control form-control-alternative{{ $errors->has('unit_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Category') }}" value="{{ old('unit_id') }}" required autofocus>
+                                    <select type="select" name="unit_id" id="select-unit" class="form-control form-control-alternative{{ $errors->has('unit_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Category') }}" required autofocus>
                                         @if(!empty($units))
                                             <option value="">Unit</option>
                                             @foreach($units as $unit)
-                                                <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                                <option value="{{ $unit->id }}" {{ old('unit_id') && old('unit_id') == $unit->id ? 'selected' : '' }}>{{ $unit->description }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -89,23 +89,16 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="image" size="sm" class="btn btn-primary mt-4 btn-sm btn-file">Upload Image
-                                        <input type="file" class="d-none" id="image" name="image[]" multiple>
-                                    </label>
-                                    @if ($errors->has('file'))
+                                    <input type="file" id="image" name="image[]" multiple class="form-control form-control-alternative{{ $errors->has('image') ? ' is-invalid' : '' }}" placeholder="{{ __('Image') }}" value="{{ old('image') }}" autofocus>
+                                    @if ($errors->has('image'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('file') }}</strong>
+                                            <strong>{{ $errors->first('image') }}</strong>
                                         </span>
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('alt') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="alt">{{ __('Image alt') }}</label>
                                     <input type="text" name="alt" id="alt" class="form-control form-control-alternative{{ $errors->has('alt') ? ' is-invalid' : '' }}" placeholder="{{ __('Image alt') }}" value="{{ old('alt') }}" autofocus>
-                                    @if ($errors->has('alt'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('alt') }}</strong>
-                                        </span>
-                                    @endif
                                 </div>
 
                                 <div class="text-center">
@@ -117,7 +110,7 @@
                 </div>
             </div>
         </div>
-        
+
         @include('layouts.footers.auth')
     </div>
 @endsection
