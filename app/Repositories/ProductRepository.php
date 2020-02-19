@@ -88,4 +88,23 @@ class ProductRepository extends BaseRepository
         ]);
     }
 
+    /**
+     * Get products by ids
+     *
+     * @param array $ids
+     * @return object
+     */
+    public function getProductsByIds(array $ids) :object
+    {
+        $products = $this->model->select(
+                'id', 'name', 'category_id', 'description', 'price', 'image_folder', 'unit_id', 'sort_order'
+            )->with(['productImages' => function($query) {
+                $query->select('id', 'product_id', 'image', 'alt');
+            }])->with(['unit'=>function($query){
+                $query->select('id', 'name');
+            }])->whereIn('id', $ids)->get();
+
+        return $this->joiningPaths($products);
+    }
+
 }

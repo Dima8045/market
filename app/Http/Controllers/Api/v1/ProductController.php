@@ -215,4 +215,16 @@ class ProductController extends Controller
             ->forget(['first_page_url', 'last_page_url', 'next_page_url', 'prev_page_url']);
         return response(['products' => $products]);
     }
+
+    /**
+     * Get products by ids
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function getByIds(Request $request)
+    {
+        $products = collect($this->productRepository->getProductsByIds($request->all()));
+        return response(['products' => $products]);
+    }
 }

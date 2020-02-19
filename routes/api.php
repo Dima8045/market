@@ -46,6 +46,7 @@ Route::group([
                 'as'=>'products.'
             ], function () {
                 Route::get('/', 'ProductController@index')->name('products');
+                Route::post('/get-by-ids', 'ProductController@getByIds')->name('getByIds');
             });
     });
 });
