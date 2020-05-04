@@ -104,7 +104,7 @@ class ProductRepository extends BaseRepository
                 $query->select('id', 'name');
             }])->whereIn('id', $ids)->get();
 
-        return $this->joiningPaths($products);
+        return collect(['data' => $this->joiningPaths($products)]);
     }
 
 }
