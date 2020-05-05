@@ -89,7 +89,7 @@
                         <span class="nav-link-text" style="color: #f4645f;">{{ __('Products') }}</span>
                     </a>
 
-                    <div class="collapse show" id="navbar-products">
+                    <div class="collapse hide" id="navbar-products">
                         <ul class="nav nav-sm flex-column">
                             @if(($categories = \App\Category::get(['id', 'name'])))
                                 <li class="nav-item">
@@ -115,8 +115,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('products.index') }}">
-                        <i class="ni ni-box-2 text-orange"></i> {{ __('Products') }}
+                    <a class="nav-link" href="{{ route('coupons.index') }}">
+                        <i class="ni ni-briefcase-24 text-orange"></i> {{ __('Coupons') }}
                     </a>
                 </li>
                 <li class="nav-item">

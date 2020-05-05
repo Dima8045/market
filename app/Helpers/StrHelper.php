@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Carbon\Carbon;
+
 /**
  * Class StrHelper
  *
@@ -18,5 +20,20 @@ abstract class StrHelper
     public static function rebuildFolderFormat(string $text) :string
     {
         return str_replace(' ', '_', mb_strtolower(trim($text)));
+    }
+
+    /**
+     * Rebuild date format
+     *
+     * @param array $data
+     * @return array
+     */
+    public static function rebuildDateRangeFormat(array $data) :array
+    {
+        $range = [];
+        foreach ($data as $key => $value) {
+            $range[$key] = Carbon::parse($value)->toDateString();
+        }
+        return $range;
     }
 }
