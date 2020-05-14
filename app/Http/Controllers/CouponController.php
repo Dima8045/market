@@ -49,9 +49,9 @@ class CouponController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Coupon $coupon)
     {
-        //
+        return view('coupons.edit')->with(['coupon' => $coupon, 'couponType' => Coupon::COUPON_TYPE]);
     }
 
     /**
