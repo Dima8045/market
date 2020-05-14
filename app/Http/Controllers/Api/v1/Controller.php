@@ -25,7 +25,7 @@ namespace App\Http\Controllers\Api\v1;
  *     )
  * @OA\Server(
  *     description="Market API local host",
- *     url="http://market.loc/api"
+ *     url="http://market.loc/api/v1"
  * )
  */
 

@@ -14,7 +14,7 @@
     },
     "servers": [
         {
-            "url": "http://market.loc/api",
+            "url": "http://market.loc/api/v1",
             "description": "Market API local host"
         }
     ],
@@ -392,6 +392,79 @@
                 }
             }
         },
+        "/coupons/get-by-code": {
+            "post": {
+                "tags": [
+                    "CouponByCode"
+                ],
+                "summary": "Get coupon by code",
+                "operationId": "Coupon By Code",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CouponGetByCode"
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "Coupon Id",
+                                                "type": "integer"
+                                            },
+                                            "code": {
+                                                "description": "Coupon code",
+                                                "type": "string"
+                                            },
+                                            "start_date": {
+                                                "description": "Coupon start date",
+                                                "type": "string"
+                                            },
+                                            "end_date": {
+                                                "description": "Coupon end date",
+                                                "type": "string"
+                                            },
+                                            "type": {
+                                                "description": "Coupon discont type (fixed, persent)",
+                                                "type": "string",
+                                                "default": "fixed"
+                                            },
+                                            "amount": {
+                                                "description": "Coupon discont mount",
+                                                "type": "number",
+                                                "default": "0.00"
+                                            },
+                                            "active": {
+                                                "description": "Coupon activety",
+                                                "type": "boolean",
+                                                "default": "1"
+                                            },
+                                            "is_used": {
+                                                "description": "Was coupon used or not",
+                                                "type": "boolean",
+                                                "default": "0"
+                                            },
+                                            "created_at": {
+                                                "description": "Created at",
+                                                "type": "string"
+                                            },
+                                            "updated_at": {
+                                                "description": "Upated at",
+                                                "type": "sting"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/products": {
             "get": {
                 "tags": [
@@ -562,6 +635,24 @@
         }
     },
     "components": {
+        "requestBodies": {
+            "CouponGetByCode": {
+                "description": "Riddle object that needs to be updated",
+                "required": true,
+                "content": {
+                    "application/x-www-form-urlencoded": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",

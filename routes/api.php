@@ -48,5 +48,11 @@ Route::group([
                 Route::get('/', 'ProductController@index')->name('products');
                 Route::post('/get-by-ids', 'ProductController@getByIds')->name('getByIds');
             });
+            Route::group([
+                'prefix' => 'coupons',
+                'as'=>'coupons.'
+            ], function () {
+                Route::post('/get-by-code', 'CouponController@getByCode')->name('getByCode');
+            });
     });
 });
