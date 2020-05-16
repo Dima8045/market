@@ -16,8 +16,8 @@ Route::get('/', function () {
 });
 Auth::routes();
 
-Route::group(['middleware' => ['auth', 'role:super-admin,admin,editor']], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => ['auth', 'role:super-admin|admin|editor']], function () {
+    Route::get('/', 'HomeController@index')->name('home');
     Route::resource('user', 'UserController', ['except' => ['show']]);
     Route::resource('categories', 'CategoryController');
     Route::resource('products', 'ProductController');
