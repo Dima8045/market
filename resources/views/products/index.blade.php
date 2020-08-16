@@ -10,9 +10,7 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                @if(!empty($categories))
-                                    <h3 class="mb-0">{{ __($categories->count() > 1 ? 'All' : $categories->first()->name) }} </h3>
-                                @endif
+                                <h3 class="mb-0">{{ __($categories->count() > 1 ? 'All' : optional($categories->first())->name) }} </h3>
                             </div>
                             <div class="col-4 text-right">
                                 <a href="{{ route('products.create') }}" class="btn btn-sm btn-primary">{{ __('Add product') }}</a>
