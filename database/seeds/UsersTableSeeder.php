@@ -20,5 +20,7 @@ class UsersTableSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
+        $user = \App\User::find(1);
+        $user->assignRole('admin');
     }
 }
