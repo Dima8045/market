@@ -51,7 +51,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = $this->categoryRepository->getCategory($request);
+        $categories = $this->categoryRepository->getCategories($request);
         $products = $this->productRepository->getProducts($request);
         return view('products.index', compact('categories', 'products'));
     }

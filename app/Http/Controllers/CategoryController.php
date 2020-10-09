@@ -43,7 +43,7 @@ class CategoryController extends Controller
     {
         $request->merge(['perpage' => Category::CATEGORIES_ADMIN_PAGE]);
         return view('categories.index', [
-            'categories' => $this->categoryRepository->getCategory($request),
+            'categories' => $this->categoryRepository->getCategories($request),
         ]);
     }
 

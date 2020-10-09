@@ -42,11 +42,11 @@ class CategoryRepository extends BaseRepository
 
 
     /**
-     * Method getCategory per page and consider category
+     * Method getCategories per page and consider category
      *
      * @return object
      */
-    public function getCategory($request) :object
+    public function getCategories($request) :object
     {
         $categories = $this->model;
         if ($request->has('category')) {
