@@ -99,7 +99,10 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = $this->categoryRepository->getCategory($id)->first();
+        $categories = $this->categoryRepository->list()->whereNotIn('id', [$id]);
+
+        return view('categories.edit', compact('category', 'categories'));
     }
 
     /**

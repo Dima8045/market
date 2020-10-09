@@ -49,13 +49,23 @@ class CategoryRepository extends BaseRepository
     public function getCategories($request) :object
     {
         $categories = $this->model;
-        if ($request->has('category')) {
-            $categories = $this->model->where('id', $request->category);
-        }
+
         return $this->joiningPaths($categories->with( 'categoryImages')->paginate($request->input('perpage')));
     }
 
-        /**
+
+    /**
+     * Method get category
+     *
+     * @param int $id
+     * @return object
+     */
+    public function getCategory(int $id) :object
+    {
+        return $this->joiningPaths($this->model->where('id', $id)->with( 'categoryImages')->get());
+    }
+
+    /**
      * Custom method create()
      *
      * @param object $request
