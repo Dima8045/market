@@ -82,7 +82,7 @@ class ProductController extends Controller
         if ($request->has('image')){
             $files = $request->file('image');
             foreach ($files as $file) {
-                $fileName = $this->imageService->upload($file, $folder);
+                $fileName = ImageService::upload($file, $folder);
                 $result->productImages()->create([
                     'image' => $fileName ?? null,
                     'alt' => $request->alt ?? null,

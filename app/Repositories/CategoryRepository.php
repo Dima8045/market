@@ -4,6 +4,8 @@
 namespace App\Repositories;
 
 use App\Category;
+use App\Services\ImageService;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class CategoryRepository
@@ -72,12 +74,29 @@ class CategoryRepository extends BaseRepository
      * @param string $folder
      * @return mixed
      */
-    public function create(object $request, string $folder) :object
+    public function create(object $request, string $folder) :bool
     {
-        return $this->model->create([
-            'name' => $request->name,
-            'parent_id' => $request->parent_id ?? null,
-            'image_folder' => $folder,
-        ]);
+        DB::beginTransaction();
+
+        try {
+            $category = $this->model->create([
+                'name' => $request->name,
+                'parent_id' => $request->parent_id ?? null,
+                'image_folder' => $folder,
+            ]);
+
+            $file = $request->file('image');
+            $fileName = ImageService::upload($file, $folder);
+            $category->categoryImages()->create([
+                'image' => $fileName ?? null,
+                'alt' => $request->alt ?? null,
+            ]);
+
+            DB::commit();
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

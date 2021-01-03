@@ -65,19 +65,12 @@ class CategoryController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
-        $folder = $request->has('image') ? StrHelper::rebuildFolderFormat($request->name) : null;
+        $folder = StrHelper::rebuildFolderFormat($request->name);
 
         $result = $this->categoryRepository->create($request, $folder);
-        if ($request->has('image')){
-            $file = $request->file('image');
-            $fileName = $this->imageService->upload($file, $folder);
-            $result->categoryImages()->create([
-                'image' => $fileName ?? null,
-                'alt' => $request->alt ?? null,
-            ]);
-        }
 
-        return redirect(route('categories.index'))->withStatus(__('Category successfully created.'));
+        return redirect(route('categories.index'))
+            ->withStatus(__($result ? 'Category successfully created.' : 'Category wasn\'t created.'));
     }
 
     /**

@@ -18,7 +18,7 @@ class ImageService
      *
      * @return array
      */
-    public function upload(UploadedFile $image, $path) : string
+    public static function upload(UploadedFile $image, $path) : string
     {
         return StorageHelper::uploadFile($image, $path, false);
     }
