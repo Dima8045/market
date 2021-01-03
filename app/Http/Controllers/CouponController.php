@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Coupon;
 use App\Http\Requests\StoreCouponRequest;
-use App\Http\Services\CouponService;
+use App\Services\CouponService;
 use Illuminate\Http\Request;
 
 class CouponController extends Controller

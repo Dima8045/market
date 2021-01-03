@@ -6,7 +6,7 @@ use App\Category;
 use App\Helpers\StrHelper;
 use App\Http\Requests\CreateCategoryRequest;
 use Illuminate\Http\Request;
-use App\Http\Services\ImageService;
+use App\Services\ImageService;
 use App\Repositories\CategoryRepository;
 
 class CategoryController extends Controller

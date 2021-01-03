@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Helpers\StrHelper;
 use App\Http\Requests\CreateProductRequest;
-use App\Http\Services\ImageService;
+use App\Services\ImageService;
 use App\Repositories\CategoryRepository;
 use App\Unit;
 use Illuminate\Http\Request;
