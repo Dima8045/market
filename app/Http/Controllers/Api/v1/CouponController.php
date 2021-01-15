@@ -71,7 +71,7 @@ class CouponController extends Controller
      *                      ),
      *                      @OA\Property(
      *                          property="updated_at",
-     *                          type="sting",
+     *                          type="string",
      *                          description="Upated at",
      *                      ),
      *                  )

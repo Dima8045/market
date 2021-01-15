@@ -24,12 +24,12 @@ class AuthController extends Controller
      *          @OA\JsonContent(
      *               @OA\Property(
      *                    property="name",
-     *                    example="User2",
+     *                    example="User1",
      *                    type="string",
      *                ),
      *               @OA\Property(
      *                    property="email",
-     *                    example="user2@mail.com",
+     *                    example="user1@mail.com",
      *                    type="string",
      *                ),
      *                @OA\Property(
@@ -62,7 +62,7 @@ class AuthController extends Controller
      *                  ),
      *                  @OA\Property(
      *                      property="message",
-     *                      type="srting"
+     *                      type="string"
      *                  )
      *              ),
      *          )
@@ -108,7 +108,7 @@ class AuthController extends Controller
         $registerData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'password' => ['required', 'min:6', 'confirmed'],
         ]);
 
         $registerData['password'] = bcrypt($request->password);
@@ -167,7 +167,7 @@ class AuthController extends Controller
      *                  ),
      *                  @OA\Property(
      *                      property="message",
-     *                      type="srting"
+     *                      type="string"
      *                  )
      *              ),
      *          )
@@ -180,18 +180,25 @@ class AuthController extends Controller
      *              @OA\Items(
      *                  @OA\Property(
      *                      property="user",
-     *                      type="object",
+     *                      type="array",
      *                      @OA\Items(
      *                          @OA\Property(
-     *                              property="%FIELD_NAME%",
+     *                              property="id",
+     *                              type="integer"
+     *                          ),
+     *                          @OA\Property(
+     *                              property="name",
      *                              type="string"
-     *                          )
+     *                          ),
+     *                          @OA\Property(
+     *                              property="email",
+     *                              type="string"
+     *                          ),
+     *                         @OA\Property(
+     *                              property="access_token",
+     *                              type="string",
+     *                          ),
      *                      )
-     *                  ),
-     *                  @OA\Property(
-     *                      property="access_token",
-     *                      type="string",
-     *                      default="true",
      *                  ),
      *                  @OA\Property(
      *                      property="redirect",
@@ -212,17 +219,20 @@ class AuthController extends Controller
     {
         $loginData = $request->validate([
             'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string'],
+            'password' => ['required'],
         ]);
 
         if (!auth()->attempt($loginData)) {
             return response(['message' => 'Invalid credentials']);
         }
-        $accessToken = auth()->user()->createToken('auth')->accessToken;
+
         $user = auth()->user();
+        $accessToken = $user->createToken('auth')->accessToken;
         $user->access_token = $accessToken;
+
         return response([
-            'user' => $user,
+            'user' => $user->only(['id', 'name', 'email', 'access_token']),
+
             'redirect' => '/home'
         ]);
 
@@ -279,6 +289,7 @@ class AuthController extends Controller
         if ($token->revoke()) {
             return response(['message' => 'You have been succesfully logged out!']);
         }
+
         return response(['message' => 'Failed to log out']);
     }
 }
