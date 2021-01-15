@@ -35,17 +35,20 @@ abstract class StorageHelper
      *
      * @return false|string
      */
-    public static function uploadFile(UploadedFile $file,
+    public static function uploadFile(
+        UploadedFile $file,
         ?string $folder = null,
         bool $autoSubFolder = false,
         string $disk = self::PUBLIC_DISK
     ) {
         $name = $file->getClientOriginalName();
+
         if ($autoSubFolder) {
             $folder .= '/' . self::prependWithSubFolders($name, true);
         }
 
         $file->storeAs($folder, $name, ['disk' => $disk]);
+
         return $name;
     }
 

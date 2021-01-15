@@ -17,9 +17,10 @@ class CouponService
      * @param array $data
      * @return array
      */
-    public function prepareToStore(array $data)
+    public function prepareToStore(array $data) :array
     {
         $date = StrHelper::rebuildDateRangeFormat(['start_date' => $data['start_date'], 'end_date' => $data['end_date']]);
+
         if (!empty($data['active']))
             $data['active'] = true;
 

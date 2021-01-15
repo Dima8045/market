@@ -31,9 +31,11 @@ abstract class StrHelper
     public static function rebuildDateRangeFormat(array $data) :array
     {
         $range = [];
+
         foreach ($data as $key => $value) {
             $range[$key] = Carbon::parse($value)->toDateString();
         }
+
         return $range;
     }
 }
