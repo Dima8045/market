@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - 8001:80
+    depends_on:
+      - app
+    container_name: market_nginx
+    networks:
+      - market
+
+  app:
+    build:
+      args:
+        user: user
+        uid: 1000
+      context: .
+      dockerfile: docker/app/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+    container_name: market_app
+    networks:
+      - market
+
+  db:
+    image: mysql:8.0
+    restart: always
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 33061:3306
+    command: mysqld --character-set-server=UTF8MB4 --collation-server=utf8mb4_unicode_ci
+    container_name: market_db
+    networks:
+      - market
+
+networks:
+  market:
+    driver: bridge
